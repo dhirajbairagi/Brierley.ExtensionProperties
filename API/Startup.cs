@@ -5,6 +5,7 @@ using FluentValidation.AspNetCore;
 using Logic;
 using Logic.Interfaces;
 using Logic.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -23,6 +24,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Security.Principal;
+using System.Threading.Tasks;
 
 namespace API
 {
@@ -38,6 +41,8 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            AddTokenAuthentication(services);
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                 .AddFluentValidation(c => c.RegisterValidatorsFromAssemblyContaining<Startup>());
             services.AddTransient<IValidatorFactory, ServiceProviderValidatorFactory>();
@@ -113,6 +118,13 @@ namespace API
             });
 
             services.AddAutoMapper(typeof(ExtensionProfile));
+
+            services.AddHttpContextAccessor();                                  // ADD HTTPS CONTEXT ACCESSOR - exposes access to the http context to be injected into the services
+            services.AddHttpClient();
+            services.AddTransient<IPrincipal>(provider =>
+                provider.GetService<IHttpContextAccessor>()?.HttpContext?.User  // This exposes the user object specifically to be injected as needed
+            );
+
             AddLocalServices(services);
         }
         private void AddLocalServices(IServiceCollection services)
@@ -121,6 +133,65 @@ namespace API
             services.AddTransient<IExtensionDomainService, ExtensionDomainService>();
             services.AddTransient<IExtensionPropertyRepo, ExtensionPropertyRepo>();
             services.AddTransient<IExtensionDomainRepo, ExtensionDomainRepo>();
+        }
+        private static void AddTokenAuthentication(IServiceCollection services)
+        {
+            var identityAuthority = Environment.GetEnvironmentVariable("IdentityServerAPI_BaseURL");
+
+            if (string.IsNullOrEmpty(identityAuthority))
+            {
+                throw new ValidationException("Invalid Identity server configuration found");
+            }
+
+
+            // ADD AUTHENTICATION
+            // Adds the AuthenticationMiddleware to the service collection and is then enabled in the Startup.Configure method
+            // https://github.com/aspnet/Security/blob/1c30f33c925a97b105b3f9d34497218b0c9342b6/src/Microsoft.AspNetCore.Authentication/AuthenticationMiddleware.cs
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            // ADD JWT BEARER
+            // Here we can add other handlers such as cookie validation.  Since we follow the OAuth2 IDC specification, 
+            // we use token validation via JWT's, and here we specify what validation is applied via the JwtBearerOptions.
+            .AddJwtBearer(options =>
+            {
+                options.Audience = "kona-core-apis";            // sets the audience which equates to ApiResources in IdentityServer
+                options.Authority = identityAuthority;          // sets the url for Identity Provider (IDP), in this case, the Kona Identity Service
+                options.RequireHttpsMetadata = false;           // Given the services are communicating via the private net and within K8, we will be leaving this as false.  --Sets if HTTPS is required for the metadata address or authority. The default is true. This should be disabled only in development environments.
+                options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuer = false,
+                    LifetimeValidator = (notBefore, expires, securityToken, validationParameter) =>
+                    {
+                        return expires > DateTime.Now.ToUniversalTime();
+                    }
+                };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = v =>
+                    {
+                        return Task.FromResult(0);
+                    },
+
+                    OnAuthenticationFailed = v =>
+                    {
+                        if (null != v.Exception)
+                        {
+                            Console.WriteLine("******************");
+                            Console.WriteLine("Token validation failed");
+                            Console.WriteLine(v.Exception.Message);
+                            Console.WriteLine(v.Exception.StackTrace);
+                        }
+                        return Task.FromResult(0);
+                    }
+                };
+            });
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -160,6 +231,7 @@ namespace API
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

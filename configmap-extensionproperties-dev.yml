@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: brierley-extensionproperties-api
+  labels:
+    app: brierley-extensionproperties-api
+data:
+  ConnectionStrings__PermissionDBConnection: "Host=kona-db-permissions.brierley-kona-db.svc.cluster.local;Username=permissionsadmin;Password=xxxxxxxx;Database=Permissions;Port=5432"
+  IdentityServerAPI_BaseURL: "http://brierley-identity-api.brierley-kona.svc.cluster.local"
+  SchemaName: "rbac"
+---
