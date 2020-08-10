@@ -9,5 +9,6 @@ namespace Repository.Interfaces
     public interface IExtensionDomainRepo
     {
         Task<ExtensionDomain> Create(ExtensionDomain domain);
+        Task<ExtensionDomain> Update(ExtensionDomain domain);
     }
 }

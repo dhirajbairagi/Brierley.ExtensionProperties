@@ -9,6 +9,7 @@ namespace Logic
         public ExtensionProfile()
         {
             CreateMap<ExtensionProperty, ExtensionPropertyDetails>().ReverseMap();
+            CreateMap<ExtensionDomain, ExtensionDomainDetails>().ReverseMap();
         }
     }
 }

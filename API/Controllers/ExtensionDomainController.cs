@@ -24,6 +24,12 @@ namespace API.Controllers
             extensionDomain = await _extensionDomainService.CreateExtensionDomain(extensionDomain);
             return StatusCode(StatusCodes.Status201Created, extensionDomain);
         }
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] ExtensionDomainDetails extensionDomain)
+        {
+            extensionDomain = await _extensionDomainService.UpdateExtensionDomain(extensionDomain);
+            return StatusCode(StatusCodes.Status201Created, extensionDomain);
+        }
 
     }
 }

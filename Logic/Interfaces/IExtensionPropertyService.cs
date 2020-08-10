@@ -9,5 +9,7 @@ namespace Logic.Interfaces
     public interface IExtensionPropertyService
     {
         Task<IList<ExtensionPropertyDetails>> CreateExtensionProperties(IList<ExtensionPropertyDetails> extensionProperties);
+        Task<IList<ExtensionPropertyDetails>> UpdateExtensionProperties(IList<ExtensionPropertyDetails> extensionProperties);
+        Task<ExtensionPropertyDetails> GetExtensionPropertyById(int propertyId);
     }
 }

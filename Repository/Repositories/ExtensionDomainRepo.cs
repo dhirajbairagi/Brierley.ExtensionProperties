@@ -8,9 +8,21 @@ namespace Repository.Repositories
     {
         private readonly ExtensionPropertyDbContext _dbContext;
 
+        public ExtensionDomainRepo(ExtensionPropertyDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
         public async Task<ExtensionDomain> Create(ExtensionDomain domain)
         {
             await _dbContext.ExtensionDomains.AddAsync(domain);
+            await _dbContext.SaveChangesAsync();
+            return domain;
+        }
+
+        public async Task<ExtensionDomain> Update(ExtensionDomain domain)
+        {
+            _dbContext.ExtensionDomains.Update(domain);
             await _dbContext.SaveChangesAsync();
             return domain;
         }

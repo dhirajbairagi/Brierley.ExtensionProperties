@@ -61,7 +61,7 @@ namespace Repository.Migrations
 
                     b.HasKey("ExtensionDomainId");
 
-                    b.HasIndex("ExtensionDomainId", "TargetTableName")
+                    b.HasIndex("OwnerId", "TargetTableName")
                         .IsUnique();
 
                     b.ToTable("ExtensionDomains");
@@ -71,7 +71,7 @@ namespace Repository.Migrations
                         {
                             ExtensionDomainId = 1,
                             CreatedBy = new Guid("6a8b4aae-db55-4bb7-bd20-c06d1976059f"),
-                            CreatedDate = new DateTimeOffset(new DateTime(2020, 8, 9, 16, 10, 11, 59, DateTimeKind.Unspecified).AddTicks(375), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedDate = new DateTimeOffset(new DateTime(2020, 8, 10, 12, 7, 17, 13, DateTimeKind.Unspecified).AddTicks(9599), new TimeSpan(0, 0, 0, 0, 0)),
                             Description = "Products Table",
                             DisplayText = "Products Table",
                             Id = new Guid("6a8b4aae-db55-4bb7-bd20-c06d1976059f"),
@@ -79,7 +79,7 @@ namespace Repository.Migrations
                             OwnerId = 1,
                             TargetTableName = "Products",
                             UpdatedBy = new Guid("6a8b4aae-db55-4bb7-bd20-c06d1976059f"),
-                            UpdatedDate = new DateTimeOffset(new DateTime(2020, 8, 9, 16, 10, 11, 59, DateTimeKind.Unspecified).AddTicks(1441), new TimeSpan(0, 0, 0, 0, 0))
+                            UpdatedDate = new DateTimeOffset(new DateTime(2020, 8, 10, 12, 7, 17, 14, DateTimeKind.Unspecified).AddTicks(728), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
 

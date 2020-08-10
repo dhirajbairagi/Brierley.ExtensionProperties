@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Repository.Migrations
 {
-    public partial class ExtensionPropsFirst : Migration
+    public partial class FirstExtensionPropertyMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -70,11 +70,17 @@ namespace Repository.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_ExtensionDomains_ExtensionDomainId_TargetTableName",
+            migrationBuilder.InsertData(
                 schema: "extensionprops",
                 table: "ExtensionDomains",
-                columns: new[] { "ExtensionDomainId", "TargetTableName" },
+                columns: new[] { "ExtensionDomainId", "CreatedBy", "CreatedDate", "Description", "DisplayText", "Id", "IsActive", "OwnerId", "TargetTableName", "UpdatedBy", "UpdatedDate" },
+                values: new object[] { 1, new Guid("6a8b4aae-db55-4bb7-bd20-c06d1976059f"), new DateTimeOffset(new DateTime(2020, 8, 10, 12, 7, 17, 13, DateTimeKind.Unspecified).AddTicks(9599), new TimeSpan(0, 0, 0, 0, 0)), "Products Table", "Products Table", new Guid("6a8b4aae-db55-4bb7-bd20-c06d1976059f"), true, 1, "Products", new Guid("6a8b4aae-db55-4bb7-bd20-c06d1976059f"), new DateTimeOffset(new DateTime(2020, 8, 10, 12, 7, 17, 14, DateTimeKind.Unspecified).AddTicks(728), new TimeSpan(0, 0, 0, 0, 0)) });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExtensionDomains_OwnerId_TargetTableName",
+                schema: "extensionprops",
+                table: "ExtensionDomains",
+                columns: new[] { "OwnerId", "TargetTableName" },
                 unique: true);
 
             migrationBuilder.CreateIndex(

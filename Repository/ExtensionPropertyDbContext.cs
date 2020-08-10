@@ -25,7 +25,7 @@ namespace Repository
 
 
             modelBuilder.Entity<ExtensionProperty>().HasIndex(keys => new { keys.ExtensionDomainId, keys.ColumnName }).IsUnique();
-            modelBuilder.Entity<ExtensionDomain>().HasIndex(keys => new { keys.ExtensionDomainId, keys.TargetTableName }).IsUnique();
+            modelBuilder.Entity<ExtensionDomain>().HasIndex(keys => new { keys.OwnerId, keys.TargetTableName }).IsUnique();
             modelBuilder.Entity<ExtensionDomain>().HasData(ExtensionDomainSeed.GetDomains());
             base.OnModelCreating(modelBuilder);
         }

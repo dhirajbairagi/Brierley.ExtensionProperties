@@ -10,8 +10,8 @@ using Repository;
 namespace Repository.Migrations
 {
     [DbContext(typeof(ExtensionPropertyDbContext))]
-    [Migration("20200809073158_ExtensionPropsFirst")]
-    partial class ExtensionPropsFirst
+    [Migration("20200810120717_FirstExtensionPropertyMigration")]
+    partial class FirstExtensionPropertyMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -63,10 +63,26 @@ namespace Repository.Migrations
 
                     b.HasKey("ExtensionDomainId");
 
-                    b.HasIndex("ExtensionDomainId", "TargetTableName")
+                    b.HasIndex("OwnerId", "TargetTableName")
                         .IsUnique();
 
                     b.ToTable("ExtensionDomains");
+
+                    b.HasData(
+                        new
+                        {
+                            ExtensionDomainId = 1,
+                            CreatedBy = new Guid("6a8b4aae-db55-4bb7-bd20-c06d1976059f"),
+                            CreatedDate = new DateTimeOffset(new DateTime(2020, 8, 10, 12, 7, 17, 13, DateTimeKind.Unspecified).AddTicks(9599), new TimeSpan(0, 0, 0, 0, 0)),
+                            Description = "Products Table",
+                            DisplayText = "Products Table",
+                            Id = new Guid("6a8b4aae-db55-4bb7-bd20-c06d1976059f"),
+                            IsActive = true,
+                            OwnerId = 1,
+                            TargetTableName = "Products",
+                            UpdatedBy = new Guid("6a8b4aae-db55-4bb7-bd20-c06d1976059f"),
+                            UpdatedDate = new DateTimeOffset(new DateTime(2020, 8, 10, 12, 7, 17, 14, DateTimeKind.Unspecified).AddTicks(728), new TimeSpan(0, 0, 0, 0, 0))
+                        });
                 });
 
             modelBuilder.Entity("Repository.Models.ExtensionProperty", b =>

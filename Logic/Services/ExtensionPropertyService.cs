@@ -25,5 +25,16 @@ namespace Logic.Services
             properties = await _extensionPropertyRepo.CreateExtensionProperties(properties);
             return _mapper.Map<IList<ExtensionPropertyDetails>>(properties);
         }
+        public async Task<IList<ExtensionPropertyDetails>> UpdateExtensionProperties(IList<ExtensionPropertyDetails> extensionProperties)
+        {
+            IList<ExtensionProperty> properties = _mapper.Map<IList<ExtensionProperty>>(extensionProperties);
+            properties = await _extensionPropertyRepo.UpdateExtensionProperties(properties);
+            return _mapper.Map<IList<ExtensionPropertyDetails>>(properties);
+        }
+        public async Task<ExtensionPropertyDetails> GetExtensionPropertyById(int propertyId)
+        {
+            ExtensionProperty extensionProperty = await _extensionPropertyRepo.GetExtensionPropertyById(propertyId);
+            return _mapper.Map<ExtensionPropertyDetails>(extensionProperty);
+        }
     }
 }

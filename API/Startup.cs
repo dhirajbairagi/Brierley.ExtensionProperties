@@ -1,3 +1,4 @@
+using API.Filters;
 using AutoMapper;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -40,7 +41,11 @@ namespace API
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                 .AddFluentValidation(c => c.RegisterValidatorsFromAssemblyContaining<Startup>());
             services.AddTransient<IValidatorFactory, ServiceProviderValidatorFactory>();
-            services.AddControllers().AddNewtonsoftJson(options =>
+
+            // ADD CONTROLLERS
+            // This method configures the MVC services for the commonly used features with controllers for an API.
+            services.AddControllers(config => config.Filters.Add(typeof(GlobalExceptionFilter)))
+                .AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 
@@ -49,9 +54,11 @@ namespace API
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 options.UseCamelCasing(true);
             });
+
             services.AddApiVersioning();
 
             AddDatabaseContextAndMigrate(services, Configuration);
+
             // ADD CORS
             // Determines Access-Control-Allow headers.  We may be able to tighten this down once the deployed versions are locked down
             // to only routing through the API Gateway.
