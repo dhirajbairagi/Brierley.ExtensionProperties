@@ -18,5 +18,17 @@ namespace ExtensionPropertyFramework.Interfaces
         /// <param name="attributeMetadata">attributeMetadata</param>
         /// <returns>Updated object</returns>
         Task<AttributeMetadata> Update(AttributeMetadata attributeMetadata);
+        /// <summary>
+        /// Get Attribute Metadata by Table name
+        /// </summary>
+        /// <param name="tableName">table Name</param>
+        /// <returns></returns>
+        Task<AttributeMetadata> GetAttributeMetadata(string tableName);
+        /// <summary>
+        /// Get Attribute Metadata by Table name
+        /// </summary>
+        /// <param name="attributeMetadataId">table Name</param>
+        /// <returns></returns>
+        Task<AttributeMetadata> GetAttributeMetadata(int attributeMetadataId);
     }
 }

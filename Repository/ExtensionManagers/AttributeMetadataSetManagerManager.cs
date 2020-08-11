@@ -1,6 +1,8 @@
 ﻿using Brierley.ExtensionPropertyManager.FluentValidators;
 using Brierley.ExtensionPropertyManager.Models;
 using ExtensionPropertyFramework.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Brierley.ExtensionPropertyManager.ExtensionManagers
@@ -25,6 +27,16 @@ namespace Brierley.ExtensionPropertyManager.ExtensionManagers
             await context.AttributeMetadata.AddAsync(domain);
             await context.SaveChangesAsync();
             return domain;
+        }
+
+        public async Task<AttributeMetadata> GetAttributeMetadata(string tableName)
+        {
+            return await context.AttributeMetadata.Where(x => x.TargetTableName.ToUpper() == tableName.ToUpper()).FirstOrDefaultAsync();
+        }
+
+        public async Task<AttributeMetadata> GetAttributeMetadata(int attributeMetadataId)
+        {
+            return await context.AttributeMetadata.Where(x => x.AttributeMetadataId == attributeMetadataId).FirstOrDefaultAsync();
         }
 
         public async Task<AttributeMetadata> Update(AttributeMetadata domain)
