@@ -1,12 +1,9 @@
 ﻿using Logic.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Logic.Interfaces
+namespace Brierley.ExtensionProperty.Manager.Interfaces
 {
-    public interface IExtensionDomainService
+    public interface IExtensionDomainManager
     {
         Task<ExtensionDomainDetails> CreateExtensionDomain(ExtensionDomainDetails extensionDomain);
         Task<ExtensionDomainDetails> UpdateExtensionDomain(ExtensionDomainDetails extensionDomain);

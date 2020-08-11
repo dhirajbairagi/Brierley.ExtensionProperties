@@ -1,17 +1,15 @@
 ﻿using AutoMapper;
-using Logic.Interfaces;
+using Brierley.ExtensionProperty.Manager.Interfaces;
 using Logic.ViewModels;
-using Repository.Interfaces;
-using Repository.Models;
 using System.Threading.Tasks;
 
-namespace Logic.Services
+namespace Brierley.ExtensionProperty.Manager.Services
 {
-    public class ExtensionDomainService : IExtensionDomainService
+    public class ExtensionDomainManager : IExtensionDomainManager
     {
         private readonly IExtensionDomainRepo _extensionDomainRepo;
         private readonly IMapper _mapper;
-        public ExtensionDomainService(IExtensionDomainRepo extensionDomainRepo, IMapper mapper)
+        public ExtensionDomainManager(IExtensionDomainRepo extensionDomainRepo, IMapper mapper)
         {
             _extensionDomainRepo = extensionDomainRepo;
             _mapper = mapper;

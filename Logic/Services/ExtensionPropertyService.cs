@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Logic.Interfaces;
+using Brierley.ExtensionProperty.Manager.Interfaces;
 using Logic.ViewModels;
 using Repository.Interfaces;
 using Repository.Models;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Logic.Services
 {
-    public class ExtensionPropertyService : IExtensionPropertyService
+    public class ExtensionPropertyService : IExtensionPropertyManager
     {
         private readonly IExtensionPropertyRepo _extensionPropertyRepo;
         private readonly IMapper _mapper;

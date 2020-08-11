@@ -1,9 +1,8 @@
-﻿using Repository.Models;
+﻿using Brierley.ExtensionPropertyManager.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace Repository.SeedData
+namespace Brierley.ExtensionPropertyManager.SeedData
 {
     internal static class ExtensionDomainSeed
     {

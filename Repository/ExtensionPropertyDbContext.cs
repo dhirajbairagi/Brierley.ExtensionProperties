@@ -1,29 +1,23 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Configuration;
-using Repository.Models;
-using Repository.SeedData;
-using System.Security.Cryptography;
+﻿using Brierley.ExtensionPropertyManager.Models;
+using Brierley.ExtensionPropertyManager.SeedData;
+using Microsoft.EntityFrameworkCore;
 
-namespace Repository
+namespace Brierley.ExtensionPropertyManager
 {
-    public class ExtensionPropertyDbContext : DbContext
+    public class ExtensionPropertyDbContext<TContext> : DbContext where TContext : DbContext
     {
-        private readonly IConfiguration _configuration;
-        public ExtensionPropertyDbContext(DbContextOptions<ExtensionPropertyDbContext> options,
-            IConfiguration _configuration) : base(options)
+        public ExtensionPropertyDbContext(DbContextOptions<TContext> options) : base(options)
         {
-            this._configuration = _configuration;
+        }
+        public ExtensionPropertyDbContext()
+        {
+
         }
         public DbSet<ExtensionDomain> ExtensionDomains { get; set; }
         public DbSet<ExtensionProperty> ExtensionProperties { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            string schemaName = _configuration.GetConnectionString("SchemaName");
-            modelBuilder.HasDefaultSchema(schemaName);
-
-
             modelBuilder.Entity<ExtensionProperty>().HasIndex(keys => new { keys.ExtensionDomainId, keys.ColumnName }).IsUnique();
             modelBuilder.Entity<ExtensionDomain>().HasIndex(keys => new { keys.OwnerId, keys.TargetTableName }).IsUnique();
             modelBuilder.Entity<ExtensionDomain>().HasData(ExtensionDomainSeed.GetDomains());

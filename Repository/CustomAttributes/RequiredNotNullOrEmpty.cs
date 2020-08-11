@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Repository.CustomAttributes
+namespace Brierley.ExtensionPropertyManager.CustomAttributes
 {
     public class RequiredNotNullOrEmpty : RequiredAttribute
     {

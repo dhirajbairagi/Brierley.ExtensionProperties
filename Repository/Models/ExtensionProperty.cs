@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Repository.CustomAttributes;
+﻿using Brierley.ExtensionPropertyManager.CustomAttributes;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Repository.Models
+namespace Brierley.ExtensionPropertyManager.Models
 {
     public class ExtensionProperty : BaseModel
     {
@@ -18,8 +18,7 @@ namespace Repository.Models
         public virtual ExtensionDomain ExtensionDomain { get; set; }
         public string Description { get; set; }
         public string DataType { get; set; }
-        [RequiredNotNullOrEmpty]
-        public string StringMinMax { get; set; }
+        public int MaxLength { get; set; }
         [RequiredNotNullOrEmpty]
         public string Encryption { get; set; }
         public bool IsDsar { get; set; }

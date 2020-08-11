@@ -1,4 +1,4 @@
-﻿using Repository.CustomAttributes;
+﻿using ExtensionPropertyFramework.CustomAttributes;
 
 namespace Logic.ViewModels
 {

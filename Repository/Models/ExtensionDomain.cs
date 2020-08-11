@@ -1,7 +1,7 @@
-﻿using Repository.CustomAttributes;
+﻿using Brierley.ExtensionPropertyManager.CustomAttributes;
 using System.ComponentModel.DataAnnotations;
 
-namespace Repository.Models
+namespace Brierley.ExtensionPropertyManager.Models
 {
     public class ExtensionDomain : BaseModel
     {
