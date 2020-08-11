@@ -17,6 +17,7 @@ namespace Brierley.ExtensionPropertyManager.Models
         [ForeignKey("ExtensionDomainId")]
         public virtual ExtensionDomain ExtensionDomain { get; set; }
         public string Description { get; set; }
+        [AcceptDefaultValues(ErrorMessage ="InValid data type")]
         public string DataType { get; set; }
         public int MaxLength { get; set; }
         [RequiredNotNullOrEmpty]

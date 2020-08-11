@@ -8,7 +8,7 @@ namespace Brierley.ExtensionPropertyManager
     {
         public static void AddExtensionProperties(this IServiceCollection services)
         {
-            ServiceCollectionServiceExtensions.AddTransient<IExtensionDomainManager, ExtensionDomainManager>(services);
+            //ServiceCollectionServiceExtensions.AddTransient<IExtensionDomainManager, ExtensionDomainManager>(services);
             ServiceCollectionServiceExtensions.AddTransient<IExtensionPropertyManager, ExtensionManagers.ExtensionPropertyManager>(services);
         }
     }
