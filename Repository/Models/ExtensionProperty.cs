@@ -20,7 +20,6 @@ namespace Brierley.ExtensionPropertyManager.Models
         public string DisplayText { get; set; }
         [MaxLength(250)]
         public string Description { get; set; }
-        [AcceptDefaultValues(ErrorMessage ="In-Valid data type")]
         [MaxLength(25)]
         public string DataType { get; set; }
         public int StringMax { get; set; }
