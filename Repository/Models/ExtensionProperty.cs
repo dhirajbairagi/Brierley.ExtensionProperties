@@ -10,21 +10,27 @@ namespace Brierley.ExtensionPropertyManager.Models
         [Key]
         public int ExtensionPropertyId { get; set; }
         [RequiredNotNullOrEmpty]
-        public string ColumnName { get; set; }
-        public int ExtensionDomainId { get; set; }
+        [MaxLength(63)]
+        public string ColumnName { get; set; }  
+        public int AttributeMetadataId { get; set; }
+        public int BusinessEntityId { get; set; }
+        public int ProgramId { get; set; }
         [RequiredNotNullOrEmpty]
+        [MaxLength(63)]
         public string DisplayText { get; set; }
-        [ForeignKey("ExtensionDomainId")]
-        public virtual ExtensionDomain ExtensionDomain { get; set; }
+        [MaxLength(250)]
         public string Description { get; set; }
-        [AcceptDefaultValues(ErrorMessage ="InValid data type")]
+        [AcceptDefaultValues(ErrorMessage ="In-Valid data type")]
+        [MaxLength(25)]
         public string DataType { get; set; }
-        public int MaxLength { get; set; }
+        public int StringMax { get; set; }
         [RequiredNotNullOrEmpty]
+        [MaxLength(25)]
         public string Encryption { get; set; }
         public bool IsDsar { get; set; }
         public bool IsRtbf { get; set; }
         [RequiredNotNullOrEmpty]
+        [MaxLength(50)]
         public string DefaultValue { get; set; }
     }
 }

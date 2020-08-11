@@ -13,14 +13,14 @@ namespace Brierley.ExtensionPropertyManager
         {
 
         }
-        public DbSet<ExtensionDomain> ExtensionDomains { get; set; }
+        public DbSet<AttributeMetadata> AttributeMetadata { get; set; }
         public DbSet<ExtensionProperty> ExtensionProperties { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ExtensionProperty>().HasIndex(keys => new { keys.ExtensionDomainId, keys.ColumnName }).IsUnique();
-            modelBuilder.Entity<ExtensionDomain>().HasIndex(keys => new { keys.OwnerId, keys.TargetTableName }).IsUnique();
-            modelBuilder.Entity<ExtensionDomain>().HasData(ExtensionDomainSeed.GetDomains());
+            modelBuilder.Entity<AttributeMetadata>().HasIndex(keys => new { keys.TargetTableName }).IsUnique();
+            modelBuilder.Entity<ExtensionProperty>().HasIndex(keys => new { keys.AttributeMetadataId, keys.ColumnName, keys.BusinessEntityId, keys.ProgramId }).IsUnique();
+            modelBuilder.Entity<AttributeMetadata>().HasData(ExtensionDomainSeed.GetDomains());
             base.OnModelCreating(modelBuilder);
         }
     }
