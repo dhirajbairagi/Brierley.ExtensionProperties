@@ -1,7 +1,6 @@
 ﻿using Brierley.ExtensionPropertyManager.FluentValidators;
 using Brierley.ExtensionPropertyManager.Models;
 using ExtensionPropertyFramework.Interfaces;
-using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,14 +11,14 @@ namespace Brierley.ExtensionPropertyManager.ExtensionManagers
 {
     public class ExtensionPropertyManager<TContext> : IExtensionPropertyManager<TContext> where TContext : ExtensionPropertyDbContext<TContext>
     {
-        private readonly TContext context;
+        private readonly TContext _context;
 
         public ExtensionPropertyManager(TContext context)
         {
-            this.context = context;
+            _context = context;
         }
 
-        public async Task<IList<ExtensionProperty>> CreateExtensionProperties(IList<ExtensionProperty> properties)
+        public async Task<IList<ExtensionProperty>> CreateExtensionPropertiesAsync(IList<ExtensionProperty> properties)
         {
             var validator = new ExtensionPropertyValidator();
             var result = validator.Validate(properties);
@@ -27,29 +26,29 @@ namespace Brierley.ExtensionPropertyManager.ExtensionManagers
             {
                 throw new FluentValidation.ValidationException(result.Errors);
             }
-            await context.ExtensionProperties.AddRangeAsync(properties);
-            await context.SaveChangesAsync();
+            await _context.ExtensionProperties.AddRangeAsync(properties);
+            await _context.SaveChangesAsync();
             return properties;
         }
 
 
 
-        public async Task<ExtensionProperty> GetExtensionProperties(int propertyId)
+        public async Task<ExtensionProperty> GetExtensionPropertiesAsync(int propertyId)
         {
-            return await context.ExtensionProperties.Where(prop => prop.ExtensionPropertyId == propertyId).FirstOrDefaultAsync();
+            return await _context.ExtensionProperties.Where(prop => prop.ExtensionPropertyId == propertyId).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<ExtensionProperty>> GetExtensionProperties(string targetTableName, int ownerId)
+        public async Task<IEnumerable<ExtensionProperty>> GetExtensionPropertiesAsync(string targetTableName, int ownerId)
         {
-            return await (from prop in context.ExtensionProperties
-                          join domain in context.AttributeMetadata
+            return await (from prop in _context.ExtensionProperties
+                          join domain in _context.AttributeMetadata
                           on prop.AttributeMetadataId equals domain.AttributeMetadataId
                           where domain.TargetTableName.ToLower() == targetTableName.ToLower()
                           && (prop.BusinessEntityId == ownerId || prop.ProgramId == ownerId)
                           select prop).ToListAsync();
         }
 
-        public async Task<IList<ExtensionProperty>> UpdateExtensionProperties(IList<ExtensionProperty> properties)
+        public async Task<IList<ExtensionProperty>> UpdateExtensionPropertiesAsync(IList<ExtensionProperty> properties)
         {
             var validator = new ExtensionPropertyValidator();
             var result = validator.Validate(properties);
@@ -57,8 +56,8 @@ namespace Brierley.ExtensionPropertyManager.ExtensionManagers
             {
                 throw new FluentValidation.ValidationException(result.Errors);
             }
-            context.ExtensionProperties.UpdateRange(properties);
-            await context.SaveChangesAsync();
+            _context.ExtensionProperties.UpdateRange(properties);
+            await _context.SaveChangesAsync();
             return properties;
         }
         public void Dispose()

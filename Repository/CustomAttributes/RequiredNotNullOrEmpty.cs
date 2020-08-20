@@ -6,7 +6,7 @@ namespace Brierley.ExtensionPropertyManager.CustomAttributes
     {
         public override bool IsValid(object value)
         {
-            return value is string ? !string.IsNullOrEmpty((string)value) : base.IsValid(value);
+            return value is string @string ? !string.IsNullOrEmpty(@string) : base.IsValid(value);
         }
     }
 }

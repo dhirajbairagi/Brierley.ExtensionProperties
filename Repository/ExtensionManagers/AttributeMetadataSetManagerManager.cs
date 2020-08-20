@@ -9,14 +9,14 @@ namespace Brierley.ExtensionPropertyManager.ExtensionManagers
 {
     internal class AttributeMetadataSetManager<TContext> : IAttributeMetadataSetManager<TContext> where TContext : ExtensionPropertyDbContext<TContext>
     {
-        private readonly TContext context;
+        private readonly TContext _context;
 
         public AttributeMetadataSetManager(TContext context)
         {
-            this.context = context;
+            _context = context;
         }
 
-        public async Task<AttributeMetadata> Create(AttributeMetadata domain)
+        public async Task<AttributeMetadata> CreateAsync(AttributeMetadata domain)
         {
             var validator = new AttributeMetadataValidator();
             var result = validator.Validate(domain);
@@ -24,22 +24,22 @@ namespace Brierley.ExtensionPropertyManager.ExtensionManagers
             {
                 throw new FluentValidation.ValidationException(result.Errors);
             }
-            await context.AttributeMetadata.AddAsync(domain);
-            await context.SaveChangesAsync();
+            await _context.AttributeMetadata.AddAsync(domain);
+            await _context.SaveChangesAsync();
             return domain;
         }
 
-        public async Task<AttributeMetadata> GetAttributeMetadata(string tableName)
+        public async Task<AttributeMetadata> GetAttributeMetadataAsync(string tableName)
         {
-            return await context.AttributeMetadata.Where(x => x.TargetTableName.ToUpper() == tableName.ToUpper()).FirstOrDefaultAsync();
+            return await _context.AttributeMetadata.Where(x => x.TargetTableName.ToUpper() == tableName.ToUpper()).FirstOrDefaultAsync();
         }
 
-        public async Task<AttributeMetadata> GetAttributeMetadata(int attributeMetadataId)
+        public async Task<AttributeMetadata> GetAttributeMetadataAsync(int attributeMetadataId)
         {
-            return await context.AttributeMetadata.Where(x => x.AttributeMetadataId == attributeMetadataId).FirstOrDefaultAsync();
+            return await _context.AttributeMetadata.Where(x => x.AttributeMetadataId == attributeMetadataId).FirstOrDefaultAsync();
         }
 
-        public async Task<AttributeMetadata> Update(AttributeMetadata domain)
+        public async Task<AttributeMetadata> UpdateAsync(AttributeMetadata domain)
         {
             var validator = new AttributeMetadataValidator();
             var result = validator.Validate(domain);
@@ -47,8 +47,8 @@ namespace Brierley.ExtensionPropertyManager.ExtensionManagers
             {
                 throw new FluentValidation.ValidationException(result.Errors);
             }
-            context.AttributeMetadata.Update(domain);
-            await context.SaveChangesAsync();
+            _context.AttributeMetadata.Update(domain);
+            await _context.SaveChangesAsync();
             return domain;
         }
     }

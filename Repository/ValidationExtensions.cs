@@ -1,5 +1,4 @@
-﻿using Brierley.ExtensionPropertyManager.Models;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
