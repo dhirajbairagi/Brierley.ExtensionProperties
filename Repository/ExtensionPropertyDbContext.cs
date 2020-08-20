@@ -1,32 +1,31 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Configuration;
-using Repository.Models;
-using Repository.SeedData;
-using System.Security.Cryptography;
+﻿using Brierley.ExtensionPropertyManager.Models;
+using Brierley.ExtensionPropertyManager.SeedData;
+using Microsoft.EntityFrameworkCore;
 
-namespace Repository
+namespace Brierley.ExtensionPropertyManager
 {
-    public class ExtensionPropertyDbContext : DbContext
+    public class ExtensionPropertyDbContext<TContext> : DbContext where TContext : DbContext
     {
-        private readonly IConfiguration _configuration;
-        public ExtensionPropertyDbContext(DbContextOptions<ExtensionPropertyDbContext> options,
-            IConfiguration _configuration) : base(options)
+        public ExtensionPropertyDbContext(DbContextOptions<TContext> options) : base(options)
         {
-            this._configuration = _configuration;
         }
-        public DbSet<ExtensionDomain> ExtensionDomains { get; set; }
+        public ExtensionPropertyDbContext()
+        {
+
+        }
+
+        public DbSet<AttributeMetadata> AttributeMetadata { get; set; }
         public DbSet<ExtensionProperty> ExtensionProperties { get; set; }
+        public DbSet<AttributeMetadataProperty> AttributeMetadataProperties { get; set; }
+        public DbSet<AttributeMetaPropertyEncryption> AttributeMetaPropertyEncryptions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            string schemaName = _configuration.GetConnectionString("SchemaName");
-            modelBuilder.HasDefaultSchema(schemaName);
-
-
-            modelBuilder.Entity<ExtensionProperty>().HasIndex(keys => new { keys.ExtensionDomainId, keys.ColumnName }).IsUnique();
-            modelBuilder.Entity<ExtensionDomain>().HasIndex(keys => new { keys.OwnerId, keys.TargetTableName }).IsUnique();
-            modelBuilder.Entity<ExtensionDomain>().HasData(ExtensionDomainSeed.GetDomains());
+            modelBuilder.Entity<AttributeMetadata>().HasIndex(keys => new { keys.TargetTableName }).IsUnique();
+            modelBuilder.Entity<ExtensionProperty>().HasIndex(keys => new { keys.AttributeMetadataId, keys.ColumnName, keys.BusinessEntityId, keys.ProgramId }).IsUnique();
+            modelBuilder.Entity<AttributeMetadata>().HasData(ExtensionDomainSeed.GetDomains());
+            modelBuilder.Entity<AttributeMetadataProperty>().HasIndex(keys => new { keys.AttributeMetadataId, keys.ColumnName }).IsUnique();
+            modelBuilder.Entity<AttributeMetaPropertyEncryption>().HasIndex(keys => new { keys.AttributeMetadataPropertyId, keys.ProgramId }).IsUnique();
             base.OnModelCreating(modelBuilder);
         }
     }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Repository.Models
+namespace Brierley.ExtensionPropertyManager.Models
 {
     public class BaseModel
     {
