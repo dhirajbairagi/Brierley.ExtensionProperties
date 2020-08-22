@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Brierley.ExtensionPropertyManager.Models
 {
-    public sealed class AttributeMetadata : BaseModel
+    public class AttributeMetadata : BaseModel
     {
         [Key]
         public int AttributeMetadataId { get; set; }
@@ -19,6 +19,8 @@ namespace Brierley.ExtensionPropertyManager.Models
         public bool HasPrivacyElement { get; set; } = true;
         public string Description { get; set; }
         [ForeignKey("AttributeMetadataId")]
-        public ICollection<ExtensionProperty> ExtensionProperties { get; set; }
+        public virtual ICollection<ExtensionProperty> ExtensionProperties { get; set; }
+        [ForeignKey("AttributeMetadataId")]
+        public virtual ICollection<AttributeMetadataProperty> AttributeMetadataProperties { get; set; }
     }
 }

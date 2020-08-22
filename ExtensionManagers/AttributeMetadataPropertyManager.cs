@@ -26,9 +26,9 @@ namespace Brierley.ExtensionPropertyManager.ExtensionManagers
 
         public async Task<IList<AttributeMetadataProperty>> GetAsync(string targetTable)
         {
-            var result = await _context.AttributeMetadataProperties.Include(x => x.AttributeMetadata)
-                .Where(x => x.AttributeMetadata.TargetTableName.ToUpper() == targetTable.ToUpper()).ToListAsync();
-            return result;
+            var result = await _context.AttributeMetadata.Include(x => x.AttributeMetadataProperties)
+                .Where(x => x.TargetTableName.ToUpper() == targetTable.ToUpper()).FirstOrDefaultAsync();
+            return result.AttributeMetadataProperties.ToList();
         }
 
         public async Task<IList<AttributeMetadataProperty>> UpdateAsync(IList<AttributeMetadataProperty> attributeMetadataProperties)
