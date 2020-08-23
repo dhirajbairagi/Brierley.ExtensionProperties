@@ -31,7 +31,7 @@ namespace Brierley.ExtensionPropertyManager.ExtensionManagers
 
         public async Task<AttributeMetadata> GetAttributeMetadataAsync(string tableName)
         {
-            return await _context.AttributeMetadata.Where(x => x.TargetTableName.ToUpper() == tableName.ToUpper()).FirstOrDefaultAsync();
+            return await _context.AttributeMetadata.Include(x=>x.AttributeMetadataProperties).Where(x => x.TargetTableName.ToUpper() == tableName.ToUpper()).FirstOrDefaultAsync();
         }
 
         public async Task<AttributeMetadata> GetAttributeMetadataAsync(int attributeMetadataId)
