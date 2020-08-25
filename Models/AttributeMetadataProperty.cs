@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Brierley.ExtensionPropertyManager.Models
 {
@@ -8,16 +7,20 @@ namespace Brierley.ExtensionPropertyManager.Models
         [Key]
         public int AttributeMetadataPropertyId { get; set; }
         public int AttributeMetadataId { get; set; }
-        [ForeignKey("AttributeMetadataId")]
-        public AttributeMetadata AttributeMetadata { get; set; }
         [Required]
         [MaxLength(63)]
         public string ColumnName { get; set; }
         [Required]
+        [MinLength(1)]
+        public string DataType { get; set; }
+        [Required]
         [MaxLength(63)]
         public string DisplayText { get; set; }
-        [MaxLength(63)]
-        public string Alias { get; set; }
+
+        [MaxLength(63)] public string Alias { get; set; }
+        public int MaxLength { get; set; }
+        public bool IsRequired { get; set; }
+        public bool IsUnique { get; set; }
         [MaxLength(250)]
         public string Description { get; set; }
         [MaxLength(250)]

@@ -17,7 +17,6 @@ namespace Brierley.ExtensionPropertyManager.SeedData
                     TargetTableName = "Products",
                     DisplayText = "Products Table",
                     Description = "Products Table",
-
                     IsActive = true,
                     CreatedBy = Guid.Parse("6a8b4aae-db55-4bb7-bd20-c06d1976059f"),
                     CreatedDate = DateTimeOffset.UtcNow,

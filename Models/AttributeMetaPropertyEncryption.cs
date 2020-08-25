@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Brierley.ExtensionPropertyManager.Models
 {
-    public abstract class AttributeMetaPropertyEncryption : BaseModel
+    public class AttributeMetaPropertyEncryption : BaseModel
     {
         [Key]
         public int AttributeMetaPropertyEncryptionId { get; set; }
